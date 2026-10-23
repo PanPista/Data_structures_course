@@ -3,7 +3,7 @@ package weekOne;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.Stack;
+import java.util.ArrayDeque;
 
 class Bracket {
     Bracket(char type, int position) {
@@ -31,33 +31,38 @@ class check_brackets {
         BufferedReader reader = new BufferedReader(input_stream);
         String text = reader.readLine();
 
-        Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
+        ArrayDeque<Integer> opening_brackets_stack = new ArrayDeque<>();
         for (int position = 0; position < text.length(); ++position) {
             char next = text.charAt(position);
 
             if (next == '(' || next == '[' || next == '{') {
                 // Process opening bracket, write your code here
-                opening_brackets_stack.push(new Bracket(next, position));
+                opening_brackets_stack.push(position + 1);
             }
 
             if (next == ')' || next == ']' || next == '}') {
                 // Process closing bracket, write your code here
-                if (opening_brackets_stack.empty()) {
+                if (opening_brackets_stack.isEmpty()) {
                     System.out.println(position + 1);
                     return;
                 }
-                var top = opening_brackets_stack.pop();
-                if (!top.Match(next)) {
+
+                int positionTop = opening_brackets_stack.pop();
+                char topChar = text.charAt(positionTop - 1);
+                Bracket bracket = new Bracket(topChar, positionTop);
+
+                if (!bracket.Match(next)) {
                     System.out.println(position + 1);
                     return;
                 }
             }
 
         }
-        if (opening_brackets_stack.empty()) {
+
+        if (opening_brackets_stack.isEmpty()) {
             System.out.println("Success");
         } else {
-            System.out.println(opening_brackets_stack.firstElement().position + 1);
+            System.out.println(opening_brackets_stack.peekLast());
         }
     }
 }
