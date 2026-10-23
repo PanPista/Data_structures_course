@@ -37,13 +37,27 @@ class check_brackets {
 
             if (next == '(' || next == '[' || next == '{') {
                 // Process opening bracket, write your code here
+                opening_brackets_stack.push(new Bracket(next, position));
             }
 
             if (next == ')' || next == ']' || next == '}') {
                 // Process closing bracket, write your code here
+                if (opening_brackets_stack.empty()) {
+                    System.out.println(position + 1);
+                    return;
+                }
+                var top = opening_brackets_stack.pop();
+                if (!top.Match(next)) {
+                    System.out.println(position + 1);
+                    return;
+                }
             }
-        }
 
-        // Printing answer, write your code here
+        }
+        if (opening_brackets_stack.empty()) {
+            System.out.println("Success");
+        } else {
+            System.out.println(opening_brackets_stack.firstElement().position + 1);
+        }
     }
 }
