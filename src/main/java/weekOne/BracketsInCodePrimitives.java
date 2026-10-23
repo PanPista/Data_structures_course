@@ -16,10 +16,12 @@ public class BracketsInCodePrimitives {
 
         for (int i = 0; i < length; i++) {
             char c = text.charAt(i);
+
             if (c == '(' || c == '[' || c == '{') {
                 positions[top] = i;
                 top++;
             }
+
             if (c == ')' || c == ']' || c == '}') {
                 if (top == 0) {
                     System.out.println(i + 1);
